@@ -1,0 +1,13 @@
+<mvc:View
+    controllerName = "app.controller.App"
+	xmlns="sap.m"
+    xmlns:ui = "sap.ui.table"
+    xmlns:core = "sap.ui.core"
+    xmlns:l="sap.ui.layout"
+	xmlns:mvc="sap.ui.core.mvc">
+
+<HBox>
+            <mvc:XMLView id="idSideView" width="300px" viewName="app.view.SideNav"/>
+            <mvc:XMLView id="idCodeView" viewName="app.view.CodeEditor"/>
+</HBox>
+</mvc:View>
