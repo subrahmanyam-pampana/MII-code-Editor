@@ -1,0 +1,30 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+    <Dialog title="Versions">    
+       <List
+    		items="{
+    			path: '/'
+    		}" >
+    		<CustomListItem>
+    			<FlexBox justifyContent="SpaceBetween" class="sapUiSmallMarginBeginEnd">
+    				<VBox class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom" >
+    				    <Label text="version: {version}"/>
+    					<Label text="message: {message}" />
+    					<Label text="user name: {user}" />
+    				
+    				</VBox>
+    				<VBox class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom" >
+    				   	<Label text="{dateTime}"/>
+    				    <Button text="view code" icon="sap-icon://show" press=".versions.viewCode" type="Transparent" />
+    				</VBox>
+    			
+    			</FlexBox>
+    		</CustomListItem>
+    	</List> 
+    	<endButton>
+            <Button type="Reject" icon="sap-icon://decline" press=".versions.closeDialog" />
+        </endButton>
+    	
+    
+    </Dialog> 
+</core:FragmentDefinition>
