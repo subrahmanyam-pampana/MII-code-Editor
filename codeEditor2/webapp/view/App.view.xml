@@ -1,0 +1,88 @@
+<mvc:View controllerName="miiCodeEditor.controller.App"
+	xmlns="sap.m"
+	xmlns:l="sap.ui.layout"
+	xmlns:t="sap.ui.table"
+	xmlns:c="sap.ui.codeeditor"
+	xmlns:mvc="sap.ui.core.mvc" displayBlock="true" class="sapUiSizeCompact">
+	<App backgroundImage="images/splash-min.jpg">
+		<Page enableScrolling="false" showHeader="true">
+			<headerContent>
+				<Toolbar id="footerToolbar">
+					<Button text="Run" press="onRun" iconFirst="true" icon="sap-icon://media-play" iconDensityAware="false"/>
+					<Button text="Save" press="onSave" iconFirst="true" icon="sap-icon://save" iconDensityAware="false"/>
+					<Button text="Commit" press=".sourceControl.openDialog" iconFirst="true"  iconDensityAware="false"/>
+					<Button text="Versions" press=".versions.openDialog" iconFirst="true" iconDensityAware="false"/>
+
+				</Toolbar>
+				<ToolbarSpacer/>
+			</headerContent>
+			<content>
+				<l:Splitter id="contentSplitter" height="100%">
+					<Panel height="100%" class="sapUiNoContentPadding" backgroundDesign="Solid">
+						<layoutData>
+							<l:SplitterLayoutData size="20%"/>
+						</layoutData>
+						<l:Splitter orientation="Vertical">
+							<Tree id="filesTree" items="{path: 'Catalog>/'}" toggleOpenState="onToggleOpenState" mode="None" 
+							busyIndicatorDelay="1000">
+								<layoutData>
+									<l:SplitterLayoutData size="70%"/>
+								</layoutData>
+								<contextMenu>
+									<Menu itemSelected="onMenuAction">
+										<MenuItem text="New File" press="createFile"/>
+										<MenuItem text="New Folder" press="createFolder"/>
+										<MenuItem text="Delete" press="deleteFile"/>
+										<MenuItem text="Rename" press="rename"/>
+										<MenuItem text="Copy" press="copyFile"/>
+										<MenuItem text="Paste" press="pasteFile"/>
+										<MenuItem text="Create">
+											<items>
+												<MenuItem text="View" press=".createView.onCreate"/>
+												<MenuItem text="Controller" press=".createController.onCreate"/>
+												
+												<MenuItem text="Fragment" press=".createFragment.onCreate"/>
+												<MenuItem text="Ui5 App" press=".createFioriApp.onCreate"/>
+											
+											</items>
+										</MenuItem>
+									</Menu>
+								</contextMenu>
+
+								<StandardTreeItem title="{Catalog>title}" type="{Catalog>ListType}" detailPress="onDetailPress" busyIndicatorDelay="0"/>
+
+							</Tree>
+							<t:Table rows="{FileProperties>/}" selectionMode="None" visibleRowCount="13"  Mode="Fixed" rowHeight="1" columnHeaderHeight="1" class="sapUiNoMargin">
+								<t:columns>
+									<t:Column>
+										<Label text="Name"></Label>
+										<t:template> 
+											<Text text="{FileProperties>Name}" textAlign="Left" wrapping="false"></Text>
+										</t:template>
+									</t:Column>
+									<t:Column>
+										<Label text="Value"></Label>
+										<t:template>
+											<Text text="{FileProperties>Value}" textAlign="Left" wrapping="false"></Text>
+										</t:template>
+									</t:Column>
+								</t:columns>
+							</t:Table>
+						</l:Splitter>
+					</Panel>
+					<TabContainer xmlns="sap.m" id="filesTabContainer" itemSelect="onSelect" itemClose="onClose" busyIndicatorDelay="250">
+					    	<layoutData>
+							<l:SplitterLayoutData size="80%"/>
+						</layoutData>
+					</TabContainer>
+					<c:CodeEditor id="code-viewer">
+					    <c:layoutData>
+							<l:SplitterLayoutData size="0%"/>
+						</c:layoutData>
+					  </c:CodeEditor>
+				</l:Splitter>
+			</content>
+		
+		</Page>
+	</App>
+</mvc:View>
