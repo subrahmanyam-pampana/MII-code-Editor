@@ -1,6 +1,6 @@
 # MII-code-Editor
 Mii code editer is a web based code editor build to develop and maintain ui5 applications in SAP MII.
-it provides multiple options to easyly develop ui5 apps.
+it provides multiple options to easily develop ui5 apps.
 
 <img width="700" alt="image" src="https://user-images.githubusercontent.com/79074273/197838821-2ed31d24-8ad2-492f-8ccf-6b89fbb5a59c.png">
 
