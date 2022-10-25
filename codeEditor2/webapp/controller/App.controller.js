@@ -42,8 +42,8 @@ function (Controller, JSONModel, MessageToast, TabContainerItem, MessageBox, Cod
 			this.getView().setModel(this._oFilePropertiesModel = new JSONModel(), "FileProperties");
 			this.getView().setModel(this._oCatalogModel = new JSONModel({ path: "", parent: "" }), "Catalog");
 			this.getCatalogListFolders("/");
+
 			this._loadData('./configs.json').then(res=>{
-			    res = JSON.parse(res)
 			    sourceControlFolder = res.sourceCOntrolFolder
 			})
 		},
@@ -850,71 +850,68 @@ function (Controller, JSONModel, MessageToast, TabContainerItem, MessageBox, Cod
              let data = this.oDialog.getModel().getData()
              let thisRef = this
              this.oDialog.setBusy(true)
-             //create html file
+             //1.create html file
              that._loadData('./metaData/html.txt').then(content=>{
                  
                  content =  content.replaceAll("#title#", data.appTitle)
                                 .replaceAll("#app-ref#",data.appRef)
                                 .replaceAll("#app-ref#",data.appRef)
-                that._saveFile(`${thisRef.parentFolderPath}/${data.appName}/webapp/index.html`,content)                
+                                
+                that._saveFile(`${thisRef.parentFolderPath}/${data.appName}/webapp/index.html`,content).then(res1=>{
+                    
+                    //2.create component file
+                    that._loadData('./metaData/component.txt').then(content=>{
                  
-                
+                         content =  content.replaceAll("#app-ref#",data.appRef)
+                         that._saveFile(`${thisRef.parentFolderPath}/${data.appName}/webapp/Component.js`,content)                
+                    })
+                    
+                    //3.create manifest file
+                    that._loadData('./metaData/manifest.txt').then(content=>{
+                         
+                        content =  content.replaceAll("#app-ref#",data.appRef)
+                                       
+                        that._saveFile(`${thisRef.parentFolderPath}/${data.appName}/webapp/manifest.json`,content)                
+                    })
+                    
+                    //4.create view file
+                    that._loadData('./metaData/view.txt').then(content=>{
+                 
+                         content =  content.replaceAll("#controllerName#",`${data.appRef}.controller.${data.controllerName}`)
+                         that._saveFile(`${thisRef.parentFolderPath}/${data.appName}/webapp/view/${data.viewName}.view.xml`,content)                
+                    })
+                    
+                    //5.create controller file
+                     that._loadData('./metaData/controller.txt').then(Content=>{
+                         
+                        Content =  Content.replaceAll("#Controller-ref#",`${data.appRef}.controller.${data.controllerName}`)
+                                   .replaceAll("#modules#",'')
+                                   .replaceAll("#modules-ref#",'')
+                                       
+                        that._saveFile(`${thisRef.parentFolderPath}/${data.appName}/webapp/controller/${data.controllerName}.controller.js`,Content)
+                     })
+                     
+                             
+                    //6.create i18n file 
+                     that._loadData('./metaData/i18n_properties.txt').then(Content=>{
+                         
+                        Content =  Content.replaceAll("#appTitle#",data.appTitle)
+                                   .replaceAll("#appDescription#",data.appDescription)
+                                  
+                        that._saveFile(`${thisRef.parentFolderPath}/${data.appName}/webapp/i18n/i18n.properties`,Content).then(data=>{
+                             thisRef.oDialog.setBusy(false)
+                             thisRef.oDialog.close()
+                             that.getView().byId('filesTree').fireToggleOpenState({
+                                      itemContext:thisRef.context,
+                                      expanded:true
+                                     })
+                        })               
+                        
+                    })
+                     
+                })                
             })
             
-             //create component file
-             that._loadData('./metaData/component.txt').then(content=>{
-                 
-                content =  content.replaceAll("#app-ref#",data.appRef)
-                               
-                that._saveFile(`${thisRef.parentFolderPath}/${data.appName}/webapp/Component.js`,content)                
-                
-            })
-            
-             //create manifest file
-             that._loadData('./metaData/manifest.txt').then(content=>{
-                 
-                content =  content.replaceAll("#app-ref#",data.appRef)
-                               
-                that._saveFile(`${thisRef.parentFolderPath}/${data.appName}/webapp/manifest.json`,content)                
-                
-            })
-            
-             //create view file
-             that._loadData('./metaData/view.txt').then(content=>{
-                 
-                content =  content.replaceAll("#controllerName#",`${data.appRef}.controller.${data.controllerName}`)
-                               
-                that._saveFile(`${thisRef.parentFolderPath}/${data.appName}/webapp/view/${data.viewName}.view.xml`,content)                
-                
-            })
-             //create controller file
-             that._loadData('./metaData/controller.txt').then(Content=>{
-                 
-                Content =  Content.replaceAll("#Controller-ref#",`${data.appRef}.controller.${data.controllerName}`)
-                           .replaceAll("#modules#",'')
-                           .replaceAll("#modules-ref#",'')
-                               
-                that._saveFile(`${thisRef.parentFolderPath}/${data.appName}/webapp/controller/${data.controllerName}.controller.js`,Content)                
-                
-            })
-            
-             //create i18n file 
-             that._loadData('./metaData/i18n_properties.txt').then(Content=>{
-                 
-                Content =  Content.replaceAll("#appTitle#",data.appTitle)
-                           .replaceAll("#appDescription#",data.appDescription)
-                          
-                that._saveFile(`${thisRef.parentFolderPath}/${data.appName}/webapp/i18n/i18n.properties`,Content).then(data=>{
-                     thisRef.oDialog.setBusy(false)
-                     thisRef.oDialog.close()
-                })               
-                
-            })
-            
-            that.getView().byId('filesTree').fireToggleOpenState({
-                itemContext:thisRef.context,
-                expanded:true
-            })
           },
           closeDialog:function(){
               this.oDialog.close()
@@ -1089,3 +1086,6 @@ function (Controller, JSONModel, MessageToast, TabContainerItem, MessageBox, Cod
 })
 
 });
+
+
+
