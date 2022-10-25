@@ -12,7 +12,7 @@ sap.ui.define([
 function (Controller, JSONModel, MessageToast, TabContainerItem, MessageBox, CodeEditor,Fragment) {
 	"use strict";
 	var QT = {
-	    'servicesTrx':'Default/Subrahmanyam/MIICodeEditor/MIIServices'
+	    'servicesTrx':''
 	}
 	var that;
 	let sourceControlFolder;
@@ -45,6 +45,7 @@ function (Controller, JSONModel, MessageToast, TabContainerItem, MessageBox, Cod
 
 			this._loadData('./configs.json').then(res=>{
 			    sourceControlFolder = res.sourceCOntrolFolder
+			    QT.servicesTrx =  res.miiServicesTrx
 			})
 		},
 		getCatalogListFolders: function (sBindingPath) {
