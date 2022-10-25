@@ -7,7 +7,7 @@ it provides multiple options to easily develop ui5 apps.
 ## Project set up
 1. download the project zip file and extract.
 2. import the webapp folder to mii workbench.
-3. import the `codeEditor2/MIIServices.trx` to mii workbench catalog tab and copy the transaction path.
+3. import the `codeEditor/MIIServices.trx` to mii workbench catalog tab and copy the transaction path.
 4. open the configs.json file inside the webapp folder and configure transaction name from above step and sourcecontrol folder path(you can choose any folder from mii workbench to store the versions of the file)
 5. run the index.html file inside the webapp folder.
 6. your editor is ready!, enjoy using mii code editor. provide your feed back.
