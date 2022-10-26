@@ -17,6 +17,7 @@ function (Controller, JSONModel, MessageToast, TabContainerItem, MessageBox, Cod
 	var that;
 	let sourceControlFolder;
 	let isSaved = false;
+	let userName = $('#CD_USER').val()
 	
 	return Controller.extend("miiCodeEditor.controller.App",
 	{
@@ -31,6 +32,7 @@ function (Controller, JSONModel, MessageToast, TabContainerItem, MessageBox, Cod
 		_bIsIE: false,
 		_isNewFile:false,
 		onInit: function () {
+		    console.log(userName)
 		    that = this;
 			jQuery(document).keydown(jQuery.proxy(function (oEvent) {
 			    if (oEvent.keyCode === 83 && (oEvent.ctrlKey)) { 
@@ -1008,7 +1010,7 @@ function (Controller, JSONModel, MessageToast, TabContainerItem, MessageBox, Cod
                  let thisRef = this;
                  thisRef.fileContent.push({
                      ...modelData,
-                     user:'subrahmanyam',
+                     user:userName,
                      data: that.b64EncodeUnicode(thisRef.content), 
                      dateTime: new Date().toUTCString()
                  })  

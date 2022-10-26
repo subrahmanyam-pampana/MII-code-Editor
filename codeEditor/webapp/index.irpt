@@ -17,6 +17,9 @@
 	</script>
 </head>
 <body class="sapUiBody" id="content">
+    <input type="hidden" name="CD_USER" id="CD_USER" value = "{IllumLoginName}" />
+    <input type="hidden" name="CD_USER_ROLES" id="CD_USER_ROLES" value = "{IllumLoginRoles}" />
 	<div data-sap-ui-component data-name="miiCodeEditor" data-id="container" data-settings='{"id" : "miiCodeEditor"}'></div>
+	
 </body>
 </html>
