@@ -12,3 +12,6 @@ it provides multiple options to easily develop ui5 apps.
 5. run the index.html file inside the webapp folder.
 6. your editor is ready!, enjoy using mii code editor. provide your feed back.
 
+## LICENCE
+[MIT licence](LICENCE)
+
