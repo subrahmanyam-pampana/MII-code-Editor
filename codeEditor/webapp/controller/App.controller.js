@@ -872,7 +872,7 @@ function (Controller, JSONModel, MessageToast, TabContainerItem, MessageBox, Cod
                     //3.create manifest file
                     that._loadData('./metaData/manifest.txt').then(content=>{
                          
-                        content =  content.replaceAll("#app-ref#",data.appRef)
+                         content =  content.replaceAll("#app-ref#",data.appRef).replaceAll("#viewName#",data.viewName)
                                        
                         that._saveFile(`${thisRef.parentFolderPath}/${data.appName}/webapp/manifest.json`,content)                
                     })
