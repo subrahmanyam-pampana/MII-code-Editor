@@ -1,3 +1,6 @@
-{   "miiServicesTrx":"transactionPath",
-    "sourceCOntrolFolder":"Default/WEB/Subrahmanyam/miiCodeEditor/webapp/sourceControlData"
+{   "miiServicesTrx":"MIICodeEditor/transactions/MIIServices",
+    "getVersionDetails":"MIICodeEditor/Quries/getVersionDetails",
+    "getLatestVersion":"MIICodeEditor/Quries/getLatestVersion",
+   "insertIntoVersionMDOQry": "MIICodeEditor/Quries/insertIntoVersionMDOQry",
+   "getCode":"MIICodeEditor/Quries/getCode"
 }
