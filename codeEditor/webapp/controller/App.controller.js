@@ -6,16 +6,12 @@ sap.ui.define([
 	"sap/m/MessageBox",
 	"sap/ui/codeeditor/CodeEditor",
 	"sap/ui/core/Fragment"
-
 ],                    
 
 function (Controller, JSONModel, MessageToast, TabContainerItem, MessageBox, CodeEditor,Fragment) {
 	"use strict";
-	var QT = {
-	    'servicesTrx':''
-	}
+	var QT = {}; 
 	var that;
-	let sourceControlFolder;
 	let isSaved = false;
 	let userName = $('#CD_USER').val()
 	
@@ -45,10 +41,7 @@ function (Controller, JSONModel, MessageToast, TabContainerItem, MessageBox, Cod
 			this.getView().setModel(this._oCatalogModel = new JSONModel({ path: "", parent: "" }), "Catalog");
 			this.getCatalogListFolders("/");
 
-			this._loadData('./configs.json').then(res=>{
-			    sourceControlFolder = res.sourceCOntrolFolder
-			    QT.servicesTrx =  res.miiServicesTrx
-			})
+			this._loadData('./configs.json').then(res=>{QT = res })
 		},
 		getCatalogListFolders: function (sBindingPath) {
 			this._oFilesTree.setBusy(true);
@@ -404,7 +397,7 @@ function (Controller, JSONModel, MessageToast, TabContainerItem, MessageBox, Cod
 				that._oCatalogModel.setProperty(path, oNode)
 				
 				jQuery.ajax({
-					url: `/XMII/Runner?Transaction=${QT.servicesTrx}&OutputParameter=*&Content-Type=text/xml`+
+					url: `/XMII/Runner?Transaction=${QT.miiServicesTrx}&OutputParameter=*&Content-Type=text/xml`+
 					"&__=" + new Date().getTime(),
 					type: "POST",
 					data: {path:oNode.path+'/'+name,type:'CreateFolder'},
@@ -476,7 +469,7 @@ function (Controller, JSONModel, MessageToast, TabContainerItem, MessageBox, Cod
 		_deleteFile:function(filePath){
 		    return new Promise((resolve,reject)=>{
 		        $.ajax({
-		            url:`/XMII/Runner?Transaction=${QT.servicesTrx}&OutputParameter=*&Content-Type=text/xml`+
+		            url:`/XMII/Runner?Transaction=${QT.miiServicesTrx}&OutputParameter=*&Content-Type=text/xml`+
 					"&__=" + new Date().getTime(),
 					type:"POST",
 					data:{
@@ -969,24 +962,32 @@ function (Controller, JSONModel, MessageToast, TabContainerItem, MessageBox, Cod
                     return
                 }
                 var oTab = sap.ui.getCore().byId(sTabId)
+				
                 thisRef.content = oTab.getContent()[0].getValue()
-                thisRef.filePath = sourceControlFolder+'/'+oTab.getKey()
-                                    .replaceAll('/','_')
-                                    .replaceAll('.','_')+'.json'
                 
-                that._getFileData(thisRef.filePath).then(fileContent=>{
-                     if(!fileContent){
-                        fileContent=[]
-                    }
-                    else{
-                        fileContent = JSON.parse(fileContent) 
-                    }
-                    
-                    thisRef.fileContent = fileContent
+                let versionDetails = new Promise((resolve,reject)=>{
+                    $.ajax({
+                        url:`/XMII/Illuminator?QueryTemplate=${QT.getLatestVersion}`,
+                        data:{
+                            'Param.1':  oTab.getKey(),
+                            'Content-Type':'text/json'
+                        },
+                        success: oData=>resolve(oData),
+                        error:e=> reject(e)
+                        
+                    })
+                })
+                
+                versionDetails.then(versionData=>{
+                   
+                    let version = 1;
+                     if(versionData && versionData.Rowsets.Rowset[0].Row){
+                         version = versionData.Rowsets.Rowset[0].Row[0].version+1
+                     }
                     
                     thisRef.commitModel = new JSONModel({
                        filePath:oTab.getKey(),
-                       version: (fileContent.length>0)?(parseFloat(fileContent[fileContent.length-1].version)+0.1).toFixed(1): 0.1,
+                       version: version,
                        message:''
                     })
                     if(!thisRef.pCommitDialog){
@@ -1008,16 +1009,29 @@ function (Controller, JSONModel, MessageToast, TabContainerItem, MessageBox, Cod
                  console.log("saving the file.....")
                  let modelData = this.commitModel.getData() 
                  let thisRef = this;
-                 thisRef.fileContent.push({
-                     ...modelData,
-                     user:userName,
-                     data: that.b64EncodeUnicode(thisRef.content), 
-                     dateTime: new Date().toUTCString()
-                 })  
-                 that._saveFile(thisRef.filePath,JSON.stringify(thisRef.fileContent)).then(res=>{
-                     console.log("commited")
-                      thisRef.commitDialog.close()
-                 })  
+				 thisRef.commitDialog.setBusy(true)
+				 //thisRef.tab.setBusy(true)
+                 
+                 $.ajax({
+                     url:`/XMII/Illuminator?QueryTemplate=${QT.insertIntoVersionMDOQry} `,
+                     method:'post',
+                     data:{
+                         'Param.1': modelData.filePath,
+                         'Param.2':modelData.message,
+                         'Param.3': that.b64EncodeUnicode(thisRef.content),
+                         'Param.4': modelData.version,
+						 'Content-Type':'text/json'
+                     },
+                     success:oRes=>{
+						 if(!that.fatalErrorHandler(oRes)){
+							 thisRef.commitDialog.close()
+							 MessageToast.show('Changes Commited')
+						 }
+					 }
+                 }).always(()=>{
+					 thisRef.commitDialog.setBusy(false)
+				 }) 
+                  
            },
              closeDialog:function(){
                this.commitDialog.close()
@@ -1035,34 +1049,31 @@ function (Controller, JSONModel, MessageToast, TabContainerItem, MessageBox, Cod
                 }
                 var oTab = sap.ui.getCore().byId(sTabId)
                 thisRef.content = oTab.getContent()[0].getValue()
-                thisRef.filePath = sourceControlFolder+'/'+oTab.getKey()
-                                    .replaceAll('/','_')
-                                    .replaceAll('.','_')+'.json'
+                thisRef.filePath = oTab.getKey()
                 
-                that._getFileData(thisRef.filePath).then(fileContent=>{
-                     if(!fileContent){
-                        fileContent=[]
+                $.ajax({
+                    url:`/XMII/Illuminator?QueryTemplate=${QT.getVersionDetails}`,
+                    data:{
+                        'Param.1':oTab.getKey(),
+                        'Content-Type':'text/json'
+                    },
+                    success:oVersionData=>{
+                        if(!that.fatalErrorHandler(oVersionData)){
+                            thisRef.versionModel = new JSONModel(oVersionData)
+                            if(!thisRef.pVerDialog){
+                                thisRef.pVerDialog = that.loadFragment({
+                                    name:"miiCodeEditor.view.versions"
+                                })
+                            }
+                            
+                            thisRef.pVerDialog.then(oDialog=>{
+                                oDialog.setModel(thisRef.versionModel)
+                                oDialog.open()
+                                thisRef.Dialog = oDialog
+                            })  
+                        }
                     }
-                    else{
-                        fileContent = JSON.parse(fileContent) 
-                    }
-                    
-                    thisRef.fileContent = fileContent
-                    
-                    thisRef.versionModel = new JSONModel( thisRef.fileContent)
-                    if(!thisRef.pVerDialog){
-                        thisRef.pVerDialog = that.loadFragment({
-                            name:"miiCodeEditor.view.versions"
-                        })
-                    }
-                    
-                    thisRef.pVerDialog.then(oDialog=>{
-                        oDialog.setModel(thisRef.versionModel)
-                        oDialog.open()
-                        thisRef.Dialog = oDialog
-                    })
-            
-             })
+                })
 		    
 		},
 		 closeDialog:function(){
@@ -1070,9 +1081,23 @@ function (Controller, JSONModel, MessageToast, TabContainerItem, MessageBox, Cod
 	    },
 	    viewCode:function(oEvent){
 	        let dataObj = oEvent.getSource().getBindingContext().getObject()
-			this.getView().byId("code-viewer").setValue(this.b64DecodeUnicode(dataObj.data))
-			this.Dialog.close()
-			that._setSplitterWidth(['20%','40%','40%'])
+	        
+	        $.ajax({
+	            url:`/XMII/Illuminator?QueryTemplate=${QT.getCode}`,
+	            data:{
+	                'Param.1':dataObj.FilePath,
+	                'Param.2':dataObj.version,
+	                'Content-Type':'text/json'
+	               },
+	           success: oData=>{
+	               if(!that.fatalErrorHandler(oData)){
+	                    this.getView().byId("code-viewer").setValue(that.b64DecodeUnicode(oData.Rowsets.Rowset[0].Row[0].Code))
+            			this.Dialog.close()
+            			that._setSplitterWidth(['20%','40%','40%'])
+	               }
+	           }
+	        })
+			
 			
 	    }
 	
