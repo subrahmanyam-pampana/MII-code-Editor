@@ -3,18 +3,18 @@
     <Dialog title="Versions">    
        <List
     		items="{
-    			path: '/'
+    			path: '/Rowsets/Rowset/0/Row'
     		}" >
     		<CustomListItem>
     			<FlexBox justifyContent="SpaceBetween" class="sapUiSmallMarginBeginEnd">
     				<VBox class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom" >
     				    <Label text="version: {version}"/>
-    					<Label text="message: {message}" />
-    					<Label text="user name: {user}" />
+    					<Label text="message: {Message}" />
+    					<Label text="user name: {LASTQUERYEXECUTIONBY}" />
     				
     				</VBox>
     				<VBox class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom" >
-    				   	<Label text="{dateTime}"/>
+    				   	<Label text="{LASTQUERYEXECUTION}"/>
     				    <Button text="view code" icon="sap-icon://show" press=".versions.viewCode" type="Transparent" />
     				</VBox>
     			
