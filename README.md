@@ -4,7 +4,7 @@ it provides multiple options to easily develop ui5 apps.
 
 
 ## Project set up
-1. download latest mii project by clicking the link [download v1.1](https://github.com/subrahmanyam-pampana/MII-code-Editor/raw/main/MIICodeEditor_v1.1.zip)
+1. download latest mii project by clicking the link [download v1.1.1](https://github.com/subrahmanyam-pampana/MII-code-Editor/raw/main/MIICodeEditor_v1.1.1.zip)
 2. It will download MIICodeEditor.zip file
 ![image](https://user-images.githubusercontent.com/79074273/209250739-8d98a9d1-5bbb-4e8b-832f-26f858169578.png)
 
