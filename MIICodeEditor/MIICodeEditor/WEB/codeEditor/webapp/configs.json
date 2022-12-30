@@ -1,0 +1,6 @@
+{   "miiServicesTrx":"MIICodeEditor/transactions/MIIServices",
+    "getVersionDetails":"MIICodeEditor/queries/getVersionDetails",
+    "getLatestVersion":"MIICodeEditor/queries/getLatestVersion",
+   "insertIntoVersionMDOQry": "MIICodeEditor/queries/insertIntoVersionMDOQry",
+   "getCode":"MIICodeEditor/queries/getCode"
+}

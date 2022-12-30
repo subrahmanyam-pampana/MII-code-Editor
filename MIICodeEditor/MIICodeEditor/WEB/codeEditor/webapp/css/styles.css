@@ -1,0 +1,30 @@
+.sapMPageFooter .zfootertoolbar{
+    height: 1.3rem !important;
+}
+
+.sapUiSizeCompact .sapMPageWithFooter>section {
+    bottom: 1.4rem !important;
+}
+
+.zcodeEditor .ace_gutter{
+    background-color: #181818 !important;
+    color: white !important;
+} 
+.sapMListHdr, .sapMPanel{
+    border-radius: 0 !important;
+}
+
+.sapMTabStrip .sapMTSTabsContainer .sapMTSTabs .sapMTabStripItem{
+    background-color: #1d232a !important;
+    margin-right: 3px !important;
+} 
+
+.sapUiSizeCompact .sapMTabStrip .sapMTSTabsContainer .sapMTSTabs .sapMTabStripItem.sapMTabStripItemSelected{
+    background-color: black !important;
+}
+
+.sapMTabStrip{
+    padding: 0!important;
+     background-color: #181818 !important;
+     height: 2rem !important;
+}

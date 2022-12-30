@@ -1,0 +1,54 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form">
+    <Dialog  contentWidth="50%" draggable="true" resizable="true" title="Controller details">
+        <f:SimpleForm 
+			editable="true"
+			layout="ResponsiveGridLayout"
+			labelSpanXL="3"
+			labelSpanL="3"
+			labelSpanM="3"
+			labelSpanS="12"
+			adjustLabelSpan="false"
+			emptySpanXL="4"
+			emptySpanL="4"
+			emptySpanM="4"
+			emptySpanS="0"
+			columnsXL="1"
+			columnsL="1"
+			columnsM="1"
+			singleContainerFullSize="false" >
+			<f:content>
+				<Label text="controller name" />
+				<Input  value="{/controllerName}" liveChange=".createController.validateConName"
+				    required="true" valueState="{/cnState}"
+				    placeholder="Ex: myControllerName"
+				    valueStateText="Enter controller Name without .controller.js"
+				    />
+				<Label text="controller ref Path" />
+				<Input value="{/controllerPath}" valueState="{/cpState}" required="true" 
+				    liveChange=".createController.validateConPath"
+				    valueStateText="Controller path must not contain controller name"
+				    placeholder="Ex: myAppRef" />
+				<Label text="required modules" />
+				<MultiComboBox id="id-selected-modules"
+			        selectionChange="handleSelectionChange"
+			        selectionFinish="handleSelectionFinish"
+			        width="350px"
+			        items="{
+				    path: '/modules',
+				    sorter: { path: 'component' }
+				    
+		        	}">
+			        <core:Item key="{module}" text="{module}"/>
+	            </MultiComboBox>
+			</f:content>
+		</f:SimpleForm>
+        <beginButton>
+            <Button  icon="sap-icon://accept"  press = ".createController.createFile" />
+        </beginButton>
+        <endButton>
+            <Button icon="sap-icon://decline" press=".createController.closeDialog" />
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

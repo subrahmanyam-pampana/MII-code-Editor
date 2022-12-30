@@ -1,0 +1,13 @@
+sap.ui.define([	'sap/ui/core/mvc/Controller',#modules#],
+    function(Controller,#modules-ref#){
+        "use strict";
+        return Controller.extend("#Controller-ref#", {
+            /*code starts here*/
+            onInit:function(){
+                
+            }
+            
+            /*code ends here*/
+        })
+      
+    })

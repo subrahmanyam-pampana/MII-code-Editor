@@ -1,0 +1,66 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+   xmlns:f="sap.ui.layout.form">
+    <Dialog  contentWidth="50%" 	title="Ui5 App details"  draggable="true" resizable="true">
+        <f:SimpleForm 
+			editable="true"
+			layout="ResponsiveGridLayout"
+			labelSpanXL="3"
+			labelSpanL="3"
+			labelSpanM="3"
+			labelSpanS="12"
+			adjustLabelSpan="false"
+			emptySpanXL="4"
+			emptySpanL="4"
+			emptySpanM="4"
+			emptySpanS="0"
+			columnsXL="1"
+			columnsL="1"
+			columnsM="1"
+			singleContainerFullSize="false" >
+			<f:content>
+				<Label text="App title" />
+				<Input  value="{/appTitle}"
+				    required="true" valueState="{=${/appTitle}===''?'Error':'Success'}"
+				    valueStateText="This field shouldn't be empty"
+				/>
+				
+				<Label text="App Description" />
+				<Input  value="{/appDescription}" />
+				
+				<Label text="Root Folder Name" />
+				<Input  value="{/appName}"
+				    required="true" valueState="{=${/appName}===''?'Error':'Success'}"
+				    valueStateText="This field shouldn't be empty"
+				/>
+				
+				<Label text="Resource Root Namespace" />
+				<Input value="{/appRef}" 
+				    required="true" valueState="{=${/appRef}===''?'Error':'Success'}"
+				    valueStateText="This field shouldn't be empty"
+				/>
+				
+				<Label text="Root View Name" />
+				<Input value="{/viewName}"
+				     required="true" valueState="{=(${/viewName}==='' || ${/viewName}.match('.view.xml'))?'Error':'Success'}"
+				     valueStateText="This field shouldn't be empty.Enter view name without .view.xml"
+				/>
+				
+				<Label text="Root View Controller Name" />
+				<Input value="{/controllerName}" 
+				    required="true" valueState="{=(${/controllerName}==='' || ${/controllerName}.match('.controller.js'))?'Error':'Success'}"
+				     valueStateText="This field shouldn't be empty.Enter controller name without .controller.js"
+				/>
+				
+			</f:content>
+		</f:SimpleForm>
+        <beginButton>
+            <Button  icon="sap-icon://accept"  press = ".createFioriApp.createApp" />
+        </beginButton>
+        <endButton>
+            <Button  icon="sap-icon://decline" press=".createController.closeDialog" />
+        </endButton>
+    </Dialog> 
+    
+    
+</core:FragmentDefinition>

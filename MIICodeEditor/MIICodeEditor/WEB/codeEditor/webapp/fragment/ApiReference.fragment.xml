@@ -1,0 +1,19 @@
+<core:FragmentDefinition
+    xmlns = "sap.m"
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns:core="sap.ui.core"
+	width="100%" height="100%">
+    <Page enableScrolling="false" showHeader="true">
+			<headerContent>
+			    <ToolbarSpacer/>
+			    
+			    <Button icon="sap-icon://inspect" tooltip="Open in new tab" press=".openAPIReference" />
+				<Button icon="sap-icon://decline" press=".closeApiRef" />
+			</headerContent>
+			<content>
+			   <html:iframe src="https://sapui5.hana.ondemand.com/?sap-ui-theme=sap_fiori_3_dark#/api" width="100%" height="100%"></html:iframe>
+
+			</content>
+	</Page>	
+	   
+</core:FragmentDefinition>

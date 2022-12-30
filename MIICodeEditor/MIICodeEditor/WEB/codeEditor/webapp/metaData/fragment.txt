@@ -1,0 +1,7 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+    
+    <!-- your code starts here -->   
+    
+    
+</core:FragmentDefinition>

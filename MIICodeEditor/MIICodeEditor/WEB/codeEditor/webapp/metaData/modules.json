@@ -1,0 +1,8 @@
+[
+ {"module":"sap/m/MessageToast", "component":"MessageToast"},
+ {"module":"sap/m/MessageBox","component":"MessageBox"},
+ {"module":"sap/ui/model/json/JSONModel","component":"JSONModel"},
+ {"module":"sap/ui/model/xml/XMLModel","component":"XMLModel"},
+ {"module":	"sap/ui/core/Fragment","component":"Fragment"}
+ 
+ ]

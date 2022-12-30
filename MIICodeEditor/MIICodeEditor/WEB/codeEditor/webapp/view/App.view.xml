@@ -1,0 +1,119 @@
+<mvc:View controllerName="miiCodeEditor.controller.App"
+	xmlns="sap.m"
+	xmlns:core ="sap.ui.core"
+	xmlns:l="sap.ui.layout"
+	xmlns:t="sap.ui.table"
+	xmlns:c="sap.ui.codeeditor"
+	xmlns:data="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+	xmlns:h= "http://www.w3.org/1999/xhtml"
+	xmlns:webc="sap.ui.webc.main"
+	xmlns:mvc="sap.ui.core.mvc" displayBlock="true" class="sapUiSizeCompact">
+	<App>
+		<Page enableScrolling="false" showHeader="true">
+			<headerContent>
+				<Button text="Run" press="onRun" iconFirst="true" icon="sap-icon://media-play" iconDensityAware="false"/>
+				<Button text="Save" press="onSave" iconFirst="true" icon="sap-icon://save" iconDensityAware="false"/>
+				<Button text="Commit" press=".sourceControl.openDialog" iconFirst="true"  iconDensityAware="false"/>
+				<Button text="Versions" press=".versions.openDialog" />
+			    <ToolbarSpacer/>
+			    <Button icon="sap-icon://screen-split-two" tooltip="Split Screen" press=".splitTab" />
+			    <Button icon="sap-icon://sys-help" tooltip="Open API Reference" press=".showAPIReference"  />
+				<Button icon="sap-icon://full-screen" press=".toggleFullScreen" data:state="normal" />
+			</headerContent>
+			<content>
+    			    <l:Splitter id="contentSplitter" height="100%">
+    					<Panel height="100%" class="sapUiNoContentPadding" backgroundDesign="Solid">
+    						<layoutData>
+    							<l:SplitterLayoutData size="20%"/>
+    						</layoutData>
+    						<l:Splitter orientation="Vertical">
+    						  
+        					   <Tree id="filesTree" items="{path: 'Catalog>/'}" toggleOpenState="onToggleOpenState"
+        					    mode="SingleSelectMaster" sticky="HeaderToolbar"
+        							busyIndicatorDelay="1000">
+        								<layoutData>
+        									<l:SplitterLayoutData size="70%"/>
+        								</layoutData>
+        								<headerToolbar>
+        								   <OverflowToolbar>
+                						        <Button icon="sap-icon://add-folder" press=".createFolder" />
+                						        <Button icon="sap-icon://add-document" press=".createFile" />
+                						        <Button icon="sap-icon://create" press=".openCreateMenu" ariaHasPopup="Menu">
+                						            <dependents>
+    			                                        <core:Fragment fragmentName="miiCodeEditor.fragment.create" type="XML" />
+                                                	</dependents>
+                						            
+                						        </Button>
+                    						        
+                                             	 <Button icon="sap-icon://copy" press=".copyFile" />
+                						         <Button icon="sap-icon://paste" press=".pasteFile" />
+                						         
+                						         <Button icon="sap-icon://delete" press=".deleteFile" />
+    				                       </OverflowToolbar> 
+        								 </headerToolbar>
+        								<contextMenu>
+        									<Menu itemSelected="onMenuAction">
+        										<MenuItem text="New File" press="createFile"/>
+        										<MenuItem text="New Folder" press="createFolder"/>
+        										<MenuItem text="Delete" press="deleteFile"/>
+        										<MenuItem text="Rename" press="rename"/>
+        										<MenuItem text="Copy" press="copyFile"/>
+        										<MenuItem text="Paste" press="pasteFile"/>
+        										<MenuItem text="Create">
+        											<items>
+        												<MenuItem text="View" press=".createView.onCreate"/>
+        												<MenuItem text="Controller" press=".createController.onCreate"/>
+        												<MenuItem text="Fragment" press=".createFragment.onCreate"/>
+        												<MenuItem text="Ui5 App" press=".createFioriApp.onCreate"/>
+        											</items>
+        										</MenuItem>
+        									</Menu>
+        								</contextMenu>
+        								<StandardTreeItem title="{Catalog>title}" type="{Catalog>ListType}" detailPress="onDetailPress" busyIndicatorDelay="0"/>
+        								
+        							</Tree>
+    							
+    							<t:Table rows="{FileProperties>/}" selectionMode="None" visibleRowCount="13" rowHeight="1" columnHeaderHeight="1" class="sapUiNoMargin">
+    								<t:columns>
+    									<t:Column>
+    										<Label text="Name"></Label>
+    										<t:template> 
+    											<Text text="{FileProperties>Name}" textAlign="Left" wrapping="false"></Text>
+    										</t:template>
+    									</t:Column>
+    									<t:Column>
+    										<Label text="Value"></Label>
+    										<t:template>
+    											<Text text="{FileProperties>Value}" textAlign="Left" wrapping="false"></Text>
+    										</t:template>
+    									</t:Column>
+    								</t:columns>
+    							</t:Table>
+    						</l:Splitter>
+    					</Panel>
+    					<TabContainer xmlns="sap.m" id="filesTabContainer" itemSelect="onSelect" itemClose="onClose" items="{/tabs}" busyIndicatorDelay="250">
+    					    <items>
+    					        <TabContainerItem name="{name}" key="{key}">
+    					            <content>
+    					            
+        					            <c:CodeEditor type="{type}" value="{code}" colorTheme="{colorTheme}"/>
+    					            </content>
+    					        </TabContainerItem>
+    					   </items>
+    					    	<layoutData>
+    							    <l:SplitterLayoutData size="80%"/>
+    					    	</layoutData>
+        					    
+    					</TabContainer>
+                 </l:Splitter>
+                
+			</content>
+		    <footer >
+		        <OverflowToolbar class="zfootertoolbar">
+				
+				<ToolbarSpacer/>
+			</OverflowToolbar>
+		    </footer>
+		</Page>
+	</App>
+</mvc:View>

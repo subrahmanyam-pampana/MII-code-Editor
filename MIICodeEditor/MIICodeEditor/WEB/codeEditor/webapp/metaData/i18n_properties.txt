@@ -1,0 +1,2 @@
+appTitle = #appTitle#
+appDescription = #appDescription#

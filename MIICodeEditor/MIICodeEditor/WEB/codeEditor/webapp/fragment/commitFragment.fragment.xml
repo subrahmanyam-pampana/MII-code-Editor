@@ -1,0 +1,37 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form">
+    <Dialog contentWidth="50%" title="Commit details" draggable="true" resizable="true">
+        <f:SimpleForm 
+			editable="true"
+			layout="ResponsiveGridLayout"
+			labelSpanXL="3"
+			labelSpanL="3"
+			labelSpanM="3"
+			labelSpanS="12"
+			adjustLabelSpan="false"
+			emptySpanXL="4"
+			emptySpanL="4"
+			emptySpanM="4"
+			emptySpanS="0"
+			columnsXL="1"
+			columnsL="1"
+			columnsM="1"
+			singleContainerFullSize="false" >
+			<f:content>
+				<Label text="file Path" />
+				<Text  text="{/filePath}" />
+				<Label text="file version" />
+				<Text  text="{/version}" /> 
+				<Label text="Message" />
+				<Input value="{/message}" />
+			</f:content>
+		</f:SimpleForm>
+        <beginButton>
+            <Button  icon="sap-icon://accept"  press = ".sourceControl.commitChanges" />
+        </beginButton>
+        <endButton>
+            <Button  icon="sap-icon://decline" press=".sourceControl.closeDialog" />
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

@@ -1,0 +1,19 @@
+<ActionSheet id="createMenuFragment"
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	title="Create"
+	placement="Bottom">
+	<Button
+		text="View"
+		press=".createView.onCreate" />
+	<Button
+		text="Controller"
+		press=".createController.onCreate" />
+	<Button
+		text="Fragment"
+		press=".createFragment.onCreate" />
+	<Button
+		text="Ui5 App"
+		press=".createFioriApp.onCreate" />
+
+</ActionSheet>

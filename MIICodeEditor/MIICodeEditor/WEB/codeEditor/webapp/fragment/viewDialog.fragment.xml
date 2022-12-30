@@ -1,0 +1,39 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form">
+    <Dialog  contentWidth="50%" title="View Details" draggable="true" resizable="true">
+        <f:SimpleForm 
+			editable="true"
+			layout="ResponsiveGridLayout"
+			labelSpanXL="3"
+			labelSpanL="3"
+			labelSpanM="3"
+			labelSpanS="12"
+			adjustLabelSpan="false"
+			emptySpanXL="4"
+			emptySpanL="4"
+			emptySpanM="4"
+			emptySpanS="0"
+			columnsXL="1"
+			columnsL="1"
+			columnsM="1"
+			singleContainerFullSize="false" >
+			<f:content>
+				<Label text="view name" />
+				<Input  value="{/viewName}" required="true" 
+				    valueState="{/vnState}" 
+				    placeholder="Ex: myViewName"
+				    liveChange=".createView.validateViewName"
+				    valueStateText="Enter View name without .view.xml" />
+				<Label text="controller name" />
+				<Input value="{/controllerName}" placeholder="Ex: miiapp.controller.Mycontroller"></Input>
+			</f:content>
+		</f:SimpleForm>
+        <beginButton>
+            <Button  icon="sap-icon://accept"  press = ".createView.createFile" />
+        </beginButton>
+        <endButton>
+            <Button icon="sap-icon://decline" press=".createView.closeDialog" />
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>
