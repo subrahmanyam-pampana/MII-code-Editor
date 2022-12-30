@@ -1,8 +1,0 @@
-<mvc:View controllerName="#controllerName#"
-	xmlns="sap.m"
-	xmlns:mvc="sap.ui.core.mvc">
-	<!--your code starts here-->
-	<Text text="View is ready!"/>
-	
-	<!--your code ends here-->
-</mvc:View>
